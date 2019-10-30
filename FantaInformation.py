@@ -1,23 +1,11 @@
 import requests
 from datetime import datetime
+import os
+
+apiKey = os.environ.get("NBAKEY")
+print(apiKey)
 
 #SportsDataIO
-
-#Games by date
-#Date format: 2015-SEP-01
-#https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/{date}
-
-
-#now = datetime.now().strftime("%Y-%b-%d").upper()
-now = "2019-OCT-29"
-
-key = "a0e931bbd74a4897813722d32fec448f"
-
-
-player ="John Collins"
-
-#IsClosed = false -> Game not ended
-#IsClosed = true -> game ended
 
 def todayGames():
     '''
@@ -27,9 +15,10 @@ def todayGames():
     now = "2019-OCT-29"
 
     #Send http request to get info about games
+    #https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/{date}
     response = requests.get(
         url="https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/" + now,
-        headers={'Ocp-Apim-Subscription-Key':'a0e931bbd74a4897813722d32fec448f'}
+        headers={'Ocp-Apim-Subscription-Key':apiKey}
     )
 
     toRtnGames = []  
@@ -51,6 +40,8 @@ def printTodayGames(games):
     '''
     for game in games:
         gameId = game["GameID"]
+        #IsClosed = false -> Game not ended
+        #IsClosed = true -> game ended -> Print the final score
         if(not game['IsClosed']):
             print(f'{game["AwayTeam"]} @ {game["HomeTeam"]}')
         else:
@@ -58,16 +49,31 @@ def printTodayGames(games):
         print(f'\tGameID: {gameId}')
 
 
-def newPlayer(name, team):
+def newPlayer(firstName, lastName, team):
+    playerID=0
     '''
         Return a dict representing a player
-        {name: , team: }
+        {name: , team: , playerID:}
 
         parameters:
             -name: Player's name
             -team: Team abbreviation
     '''
-    return {'name': name, 'team':team}
+    #https://api.sportsdata.io/v3/nba/stats/json/Players/TEAM?key=KEY
+    response = requests.get(
+        url= 'https://api.sportsdata.io/v3/nba/stats/json/Players/' + team.upper(),
+        headers={'Ocp-Apim-Subscription-Key':apiKey}
+    )
+
+    jsonPlayers = response.json()
+    for player in jsonPlayers:
+        if(lastName == player['LastName']):
+            playerID = player['PlayerID']
+            
+
+    if(playerID==0):
+        print("Errore nel cercare il giocatore\nAssicurarsi di aver inserito un cognome valido")
+    return {'name': firstName + ' ' + lastName, 'team':team, 'playerID':playerID}
 
 def printPlayer(player):
     '''
@@ -76,7 +82,7 @@ def printPlayer(player):
         parameters
             -player dict containing ['name', 'team'] keys
     '''
-    print(f"{player['name']}, plays for {player['team']}")
+    print(f"{player['name']} with ID {player['playerID']}, plays for {player['team']} ")
 
 def printTeam(players):
     '''
@@ -100,9 +106,37 @@ def main():
         - ...
     '''
     myPlayers = []
-    myPlayers.append(newPlayer('John Collins', 'ATL'))
-    myPlayers.append(newPlayer('Dwight Howard', 'LAL'))
+    myPlayers.append(newPlayer('John', 'Collins', 'ATL'))
+    myPlayers.append(newPlayer('Dwight', 'Howard', 'LAL'))
+    myPlayers.append(newPlayer('Anthony', 'Davis', 'LAL'))
+
     printTeam(myPlayers)
+
+    #Set of teams that roster some of my players
+    teamSet = set(player['team'] for player in myPlayers)
+
+    '''
+    I'm interested in my Player Stats by date and playerID
+    https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByPlayer/DATE/PLAYEID?key=keyapiKey
+
+    Stats I'm interested in:
+        ESPN names: FG%, FT%, 3PM, REB, AST, STL, BLK, TO, DD, TD, PTS
+        SportsDataIO names: ['FieldGoalsPercentage', 'FreeThrowsPercentage', 'ThreePointersMade', 'Rebounds', 'Assists', 'Steals', 'BlockedShots',
+            'Turnovers', 'DoubleDoubles', 'TripleDoubles', 'Points']
+
+        DD and TD = 0.0 OR 1.0
+    '''
+
+    #Return empty string if playerID does not play in that DATE
+    #https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByPlayer/DATE/PLAYEID?key=keyapiKey
+    response = requests.get(
+        url = 'https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByPlayer/{}/{}'.format('2019-OCT-29', 20001835), #Collins
+        headers={'Ocp-Apim-Subscription-Key':apiKey}   
+    )
+
+
+    print(response.json())
+    
 
 
 main()
