@@ -74,7 +74,7 @@ def newPlayer(firstName, lastName, team):
             
 
     if(playerID==0):
-        print("Errore nel cercare il giocatore\nAssicurarsi di aver inserito un cognome valido")
+        print(f"Errore nel cercare il giocatore {firstName} {lastName}\nAssicurarsi di aver inserito un cognome valido")
     return {'name': firstName + ' ' + lastName, 'team':team, 'playerID':playerID}
 
 def toStringPlayer(player):
