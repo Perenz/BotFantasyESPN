@@ -40,7 +40,7 @@ def send_players(message):
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
-        response = 'Prova'
+        response = '/today'
         bot.reply_to(message, response)
 
 
