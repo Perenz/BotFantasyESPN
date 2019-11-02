@@ -29,11 +29,13 @@ myPlayers.append(newPlayer('Dillon', 'Brooks', 'MEM'))
 
 '''
 
+'''
 myPlayer = player('Dwight', 'Howard', 'LAL')
 myTeam = team()
 myTeam.addPlayer(myPlayer)
 myTeam.addPlayer('Collin', 'Sexton', 'CLE')
 print(myTeam)
+'''
 
 @bot.message_handler(commands=['today', 'night'])
 def send_stats(message):
