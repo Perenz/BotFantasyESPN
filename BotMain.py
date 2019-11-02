@@ -1,6 +1,7 @@
 import telebot
 from player import player
 from team import team
+import gameDay
 from datetime import timedelta
 from FantaInformation import *
 
@@ -36,6 +37,11 @@ myTeam.addPlayer(myPlayer)
 myTeam.addPlayer('Collin', 'Sexton', 'CLE')
 print(myTeam)
 '''
+
+gD = gameDay.gameDay('2019-OCT-30')
+
+print(gD)
+
 
 @bot.message_handler(commands=['today', 'night'])
 def send_stats(message):
