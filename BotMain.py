@@ -1,4 +1,6 @@
 import telebot
+from player import player
+from team import team
 from datetime import timedelta
 from FantaInformation import *
 
@@ -9,6 +11,7 @@ bot = telebot.TeleBot(teleBotToken)
 #This can be sostituted with a WebScraping operation from https://fantasy.espn.com/basketball/team?leagueId=28348224&teamId=7&seasonId=2020
 
 #Add a module that calls the API only once and keep lastName, team and PlayerID
+'''
 myPlayers = []
 myPlayers.append(newPlayer('Dwight', 'Howard', 'LAL'))
 myPlayers.append(newPlayer('Anthony', 'Davis', 'LAL'))
@@ -23,6 +26,14 @@ myPlayers.append(newPlayer('Joe', 'Harris', 'BKN'))
 myPlayers.append(newPlayer('Kent', 'Bazemore', 'POR'))
 myPlayers.append(newPlayer('Mo', 'Bamba', 'ORL'))
 myPlayers.append(newPlayer('Dillon', 'Brooks', 'MEM'))
+
+'''
+
+myPlayer = player('Dwight', 'Howard', 'LAL')
+myTeam = team()
+myTeam.addPlayer(myPlayer)
+myTeam.addPlayer('Collin', 'Sexton', 'CLE')
+print(myTeam)
 
 @bot.message_handler(commands=['today', 'night'])
 def send_stats(message):
