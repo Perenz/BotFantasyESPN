@@ -10,7 +10,7 @@ class playerDailyStats:
             self.playerStats[playerDailyStats.myKeys[key]] = statsDict[key]
 
     def __str__(self):
-        toRtn = self.playerStats['Name'] + ':'
+        toRtn = self.playerStats['Name'] + ':\n'
         for key in self.playerStats.keys():
             if key != 'Name':
                 toRtn += "\t{:<15} {:<15}\n".format(key, self.playerStats[key])

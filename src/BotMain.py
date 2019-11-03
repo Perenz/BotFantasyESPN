@@ -35,17 +35,27 @@ myPlayers.append(newPlayer('Dillon', 'Brooks', 'MEM'))
 #TODO Automated inseriment through ESPN Fantasy website with Selenium Webscraping:
 # https://fantasy.espn.com/basketball/team?leagueId=28348224&teamId=7&seasonId=2020
 
-myPlayer = player('Dwight', 'Howard', 'LAL')
 myTeam = team()
-myTeam.addPlayer(myPlayer)
+myTeam.addPlayer('Dwight', 'Howard', 'LAL')
+myTeam.addPlayer('Shai', 'Gilgeous-Alexander', 'OKC')
+myTeam.addPlayer('Zach', 'LaVine', 'CHI')
+myTeam.addPlayer('Rudy', 'Gobert', 'UTA')
+myTeam.addPlayer('Khris', 'Middleton', 'MIL')
+myTeam.addPlayer('Dario', 'Saric', 'PHO')
 myTeam.addPlayer('Collin', 'Sexton', 'CLE')
-print(myTeam)
+myTeam.addPlayer('Tobias', 'Harris', 'PHI')
+myTeam.addPlayer("De'Aaron", 'Fox', 'SAC')
+myTeam.addPlayer('Joe', 'Harris', 'BKN')
+myTeam.addPlayer('Kent', 'Bazemore', 'POR')
+myTeam.addPlayer('Mohamed', 'Bamba', 'ORL')
+myTeam.addPlayer('Dillon', 'Brooks', 'MEM')
+# print(myTeam)
 
 
-gD = gameDay.gameDay('2019-OCT-30')
+gD = gameDay.gameDay('2019-OCT-29')
 
-print(gD)
-print(gD.getPlayingTeams())
+#print(gD)
+#print(gD.getPlayingTeams())
 
 teamStats = gD.getTeamStatsByGameDay(myTeam)
 print(teamStats)
