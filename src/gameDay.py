@@ -1,5 +1,6 @@
-import typing
 from APIInterface import getJson
+from fantaStats import *
+
 
 class gameDay:
     def __init__(self, date):
@@ -59,6 +60,29 @@ class gameDay:
             teamsList.append(g.homeTeam)
             teamsList.append(g.awayTeam)
         return teamsList
+
+    def getTeamStatsByGameDay(self,myTeam):
+        '''
+        Given a myTeam, return the interested stats made by players in myTeam that played during that gameDay
+        '''
+
+        # Use getPlayingTeam to get team involved that night
+        # For each of my players in one of that team -> Compute stats
+
+        playingTeam = self.getPlayingTeams()
+        print(myTeam)
+
+        teamStats = myTeamDailyStats()
+
+        for myPlayer in myTeam.players:
+            if myPlayer.team in playingTeam:
+                #Compute Stats
+                #https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByPlayer/DATE/PLAYEID?key=keyapiKey
+
+                response = getJson('https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByPlayer/{}/{}'.format(self.date, myPlayer.playerID))
+                teamStats.addPlayerStats(playerStats = playerDailyStats(response))
+
+        return teamStats
 
 
 

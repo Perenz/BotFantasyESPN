@@ -1,4 +1,8 @@
 from APIInterface import getJson
+import json
+
+
+
 
 class player:
     '''
@@ -9,11 +13,14 @@ class player:
         self.lastName = lastName
         self.team=team
 
-        jsonPlayers = getJson('https://api.sportsdata.io/v3/nba/stats/json/Players/' + self.team.upper())
+        #jsonPlayers = getJson('https://api.sportsdata.io/v3/nba/stats/json/Players/' + self.team.upper())
+
+        with open('files/activePlayers.json') as jSonFile:
+            jsonPlayers = json.load(jSonFile)
 
         findFlag = False
         for player in jsonPlayers:
-            if(lastName == player['LastName']):
+            if(lastName == player['LastName'] and firstName == player['FirstName']):
                 self.playerID = player['PlayerID']
                 findFlag = True
                 

@@ -119,6 +119,8 @@ def getStatsByDatePlayer(date, playerID):
     myKeys = {'FieldGoalsPercentage':'FG%', 'FreeThrowsPercentage':'FT%', 'ThreePointersMade':'3PM', 'Rebounds':'REB', 'Assists':'AST', 'Steals':'STL', 'BlockedShots':'BLK',
             'Turnovers':'TO ', 'DoubleDoubles':'DD ', 'TripleDoubles':'TD ', 'Points':'PTS'}
 
+    #Player 'Team'
+
     #Return empty string if playerID does not play in that DATE
     #https://api.sportsdata.io/v3/nba/stats/json/PlayerGameStatsByPlayer/DATE/PLAYEID?key=keyapiKey
     response = requests.get(

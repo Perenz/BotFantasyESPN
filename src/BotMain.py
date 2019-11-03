@@ -2,8 +2,8 @@ import telebot
 from player import player
 from team import team
 import gameDay
+import os
 from datetime import timedelta
-from FantaInformation import *
 
 teleBotToken = os.environ['TELETOKEN']
 
@@ -30,37 +30,52 @@ myPlayers.append(newPlayer('Dillon', 'Brooks', 'MEM'))
 
 '''
 
-'''
+
+#Add to the team all the players from ESPN Fantasy
+#TODO Automated inseriment through ESPN Fantasy website with Selenium Webscraping:
+# https://fantasy.espn.com/basketball/team?leagueId=28348224&teamId=7&seasonId=2020
+
 myPlayer = player('Dwight', 'Howard', 'LAL')
 myTeam = team()
 myTeam.addPlayer(myPlayer)
 myTeam.addPlayer('Collin', 'Sexton', 'CLE')
 print(myTeam)
-'''
+
 
 gD = gameDay.gameDay('2019-OCT-30')
 
 print(gD)
+print(gD.getPlayingTeams())
 
+teamStats = gD.getTeamStatsByGameDay(myTeam)
+print(teamStats)
+
+#For every player that plays in a team belongig to PlayingTeam -> compute daily Stats 
 
 @bot.message_handler(commands=['today', 'night'])
 def send_stats(message):
+    '''
     date = datetime.now() - timedelta(days=1)
     date = date.strftime('%Y-%b-%d').upper()
     response = toStringTeamStats(date,myPlayers)
     #print(response)
     bot.reply_to(message, response)
+    '''
 
 @bot.message_handler(commands=['players'])
 def send_players(message):
+    '''
     response = toStringTeam(myPlayers)
     bot.reply_to(message, response)
+    '''
 
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
+    '''
         response = '/today'
         bot.reply_to(message, response)
+    '''
 
 
-bot.polling()
+#bot.polling()
