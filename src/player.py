@@ -1,9 +1,6 @@
 from APIInterface import getJson
 import json
 
-
-
-
 class player:
     '''
     Class that handles the player'stats computation
@@ -31,5 +28,3 @@ class player:
     def __str__(self) -> None:
         return self.firstName + ' ' + self.lastName + ', plays for ' + self.team
 
-class dailyStats:
-    pass 
